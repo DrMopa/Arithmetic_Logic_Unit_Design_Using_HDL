@@ -1,0 +1,70 @@
+module Project(a, b, Contl, out);
+
+//Declare inputs/outputs
+input [7:0]a; 
+input [7:0]b;
+input [3:0]Contl;
+output [7:0]out;
+
+//Assign wires for each module, including mux.
+wire [8:0]ADDOUT;
+wire [8:0]SUBOUT;
+wire [7:0]MULOUT;
+wire [7:0]OROUT;
+wire [7:0]NOTOUT;
+wire [7:0]ANDOUT;
+wire [7:0]XOROUT;
+wire [7:0]SLOUT;
+wire [7:0]SROUT;
+wire [7:0]LESSOUT;
+wire [7:0]ground;
+wire true;
+wire false;
+
+assign true = 1;
+assign ground = 8'b0000_0000;
+
+
+//Apply Each module:
+eight_Bit_Add_Sub (b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7], a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], (~true), ADDOUT[0], ADDOUT[1], ADDOUT[2], ADDOUT[3], ADDOUT[4], ADDOUT[5], ADDOUT[6], ADDOUT[7], ADDOUT[8]);
+eight_Bit_Add_Sub (b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7], a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], (true), SUBOUT[0], SUBOUT[1], SUBOUT[2], SUBOUT[3], SUBOUT[4], SUBOUT[5], SUBOUT[6], SUBOUT[7], SUBOUT[8]);
+four_bit_Multiplier(MULOUT[7], MULOUT[6], MULOUT[5], MULOUT[4], MULOUT[3], MULOUT[2], MULOUT[1], MULOUT[0], a[3], a[2], a[1], a[0], b[3], b[2], b[1], b[0]);
+eight_bit_OR (OROUT[7], OROUT[6], OROUT[5], OROUT[4], OROUT[3], OROUT[2], OROUT[1], OROUT[0], a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7]);
+eight_bit_NOT (NOTOUT[7], NOTOUT[6], NOTOUT[5], NOTOUT[4], NOTOUT[3], NOTOUT[2], NOTOUT[1], NOTOUT[0], a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7]);
+eight_bit_AND (ANDOUT[7], ANDOUT[6], ANDOUT[5], ANDOUT[4], ANDOUT[3], ANDOUT[2], ANDOUT[1], ANDOUT[0], a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7]);
+eight_bit_XOR (XOROUT[7], XOROUT[6], XOROUT[5], XOROUT[4], XOROUT[3], XOROUT[2], XOROUT[1], XOROUT[0], a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7]);
+eight_shift_left (SLOUT[7], SLOUT[6], SLOUT[5], SLOUT[4], SLOUT[3], SLOUT[2], SLOUT[1], SLOUT[0], a[7], a[6], a[5], a[4], a[3], a[2], a[1], a[0], b[0], b[1], b[2]);
+eight_shift_right (SROUT[7], SROUT[6], SROUT[5], SROUT[4], SROUT[3], SROUT[2], SROUT[1], SROUT[0], a[7], a[6], a[5], a[4], a[3], a[2], a[1], a[0], b[0], b[1], b[2]);
+eight_bit_less (LESSOUT[0], a[7], a[6], a[5], a[4], a[3], a[2], a[1], a[0], b[0], b[1], b[2], b[3], b[4], b[5], b[6], b[7]);
+
+
+//OUTPUT MUX
+full_Mux(out, ground, ground, ADDOUT, SUBOUT, ground, ground, ground, MULOUT, OROUT, NOTOUT, ANDOUT, XOROUT, SLOUT, SROUT, LESSOUT, ground, Contl);
+
+
+endmodule
+
+/*
+Addition ADD 0010
+Subtraction SUB 0011
+Multiplication MUL 0111
+Bitwise or OR 1000
+Bitwise not NOT 1001
+Bitwise and AND 1010
+Bitwise xor XOR 1011
+Shift left logical SLL 1100
+Shift right logical SRL 1101
+Set on less than SLT 1110
+*/
+
+
+/* Mounting Part 1, the four_bit_Multiplier
+module Project(a, b, p);
+
+input [3:0]a; 
+input [3:0]b;
+output [7:0]p;
+
+four_bit_Multiplier (p[7], p[6], p[5], p[4], p[3], p[2], p[1], p[0], a[3], a[2], a[1], a[0], b[3], b[2], b[1], b[0]);
+endmodule
+*/
