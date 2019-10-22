@@ -1,0 +1,15 @@
+module eight_bit_mux(y7, y6, y5, y4, y3, y2, y1, y0, a7, a6, a5, a4, a3, a2, a1, a0, b7, b6, b5, b4, b3, b2, b1, b0, sel);
+
+input a7, a6, a5, a4, a3, a2, a1, a0, b7, b6, b5, b4, b3, b2, b1, b0, sel;
+output y7, y6, y5, y4, y3, y2, y1, y0;
+
+one_bit_mux(y0, a0, b0, sel);
+one_bit_mux(y1, a1, b1, sel);
+one_bit_mux(y2, a2, b2, sel);
+one_bit_mux(y3, a3, b3, sel);
+one_bit_mux(y4, a4, b4, sel);
+one_bit_mux(y5, a5, b5, sel);
+one_bit_mux(y6, a6, b6, sel);
+one_bit_mux(y7, a7, b7, sel);
+
+endmodule
